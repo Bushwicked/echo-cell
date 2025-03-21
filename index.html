@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Echo Cell</title>
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
   <style>
     body {
@@ -11,9 +12,16 @@
       font-family: 'Orbitron', sans-serif;
       background: #0f0f0f;
       color: #e0e0e0;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
     }
     .hero {
       background: url('https://images.unsplash.com/photo-1603565819517-597f4baf9633') center/cover no-repeat;
+      width: 100%;
       height: 100vh;
       display: flex;
       flex-direction: column;
@@ -46,49 +54,111 @@
     .cta:hover {
       background: #c39234;
     }
-    section {
-      max-width: 800px;
-      margin: 4rem auto;
-      padding: 0 2rem;
-    }
-    h2 {
-      border-bottom: 1px solid #444;
-      padding-bottom: 0.5rem;
-      margin-bottom: 1rem;
-    }
-    .footer {
-      text-align: center;
+    .terminal {
+      display: none;
+      background: #000;
+      color: #00ff88;
+      font-family: monospace;
       padding: 2rem;
-      font-size: 0.8rem;
-      color: #555;
+      white-space: pre-line;
+      animation: fadeIn 1s ease-in-out;
+      max-width: 800px;
+      margin: 0 auto;
+      box-sizing: border-box;
+    }
+    .blink {
+      animation: blink 1s step-start 0s infinite;
+    }
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .link-block {
+      margin-top: 2rem;
+      text-align: center;
+    }
+    .link-block a {
+      display: inline-block;
+      color: #00ff88;
+      margin: 0.5rem 1rem 0 0;
+      text-decoration: none;
+      border: 1px solid #00ff88;
+      padding: 0.5rem 1rem;
+    }
+    .link-block a:hover {
+      background: #00ff88;
+      color: #000;
+    }
+    .whisper {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      font-size: 4rem;
+      color: rgba(255, 255, 255, 0.02);
+      transform: translateY(-50%);
+      pointer-events: none;
+      user-select: none;
+      white-space: nowrap;
+      z-index: 0;
+      animation: pulseWhisper 10s ease-in-out infinite;
+    }
+    @keyframes pulseWhisper {
+      0%, 100% { opacity: 0.02; }
+      50% { opacity: 0.08; }
     }
   </style>
 </head>
 <body>
-  <div class="hero">
+  <div class="whisper">power moves in silence</div>
+
+  <div class="hero" id="hero">
     <h1>Echo Cell</h1>
     <p class="tagline">Power moves in silence.</p>
-    <button class="cta">Enter the Cell</button>
+    <button class="cta" onclick="enterCell()">Enter the Cell</button>
   </div>
 
-  <section>
-    <h2>What is Echo Cell?</h2>
-    <p>Echo Cell is a covert, story-driven faction embedded within <em>Dune: Awakening</em>. We turn survival gameplay into an evolving narrative—spies, sabotage, secrets, and legacy. Every mission writes a new page in the chronicle. Every player matters.</p>
-  </section>
-
-  <section>
-    <h2>How It Works</h2>
-    <p>Join us, and you'll step into the role of a covert operative. Receive encrypted briefings, complete live missions in-game, and influence the server-wide story through roleplay, action, and consequence. Optional Patreon tiers will unlock deeper access to custom arcs and narrative influence.</p>
-  </section>
-
-  <section>
-    <h2>Join Us</h2>
-    <p>Recruitment is selective. Prove your value, and gain access to our Discord, intel drops, and operational structure. We'll contact you... if you're noticed.</p>
-    <p><a href="#" style="color: #e3b04b; text-decoration: underline;">[Join the Discord]</a></p>
-  </section>
-
-  <div class="footer">
-    &copy; 2025 Echo Cell | Operative visibility classified
+  <div class="terminal" id="terminal">
+    <div id="terminal-output"></div>
+    <div class="link-block">
+      <a href="field-dossier.html" target="_blank">[DOWNLOAD FIELD DOSSIER]</a>
+      <a href="mission-archives.html" target="_blank">[READ MISSION ARCHIVES]</a>
+      <a href="https://discord.com/invite/placeholder" target="_blank">[JOIN THE NETWORK]</a>
+    </div>
   </div>
+
+  <script>
+    const lines = [
+      '> Accessing encrypted channel...',
+      '> Establishing link...',
+      '> Echo Cell Node: Delta-11',
+      '> Status: ACTIVE',
+      '',
+      '> Incoming directive detected.',
+      '',
+    ];
+
+    function enterCell() {
+      document.getElementById('hero').style.display = 'none';
+      const terminal = document.getElementById('terminal');
+      terminal.style.display = 'block';
+      const output = document.getElementById('terminal-output');
+      let i = 0;
+      function typeLine() {
+        if (i < lines.length) {
+          output.innerHTML += lines[i] + '\n';
+          i++;
+          setTimeout(typeLine, 1000);
+        } else {
+          output.innerHTML += '> \u2588'; // blinking block character
+        }
+      }
+      typeLine();
+    }
+  </script>
 </body>
 </html>
